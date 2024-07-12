@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  # Temporary stop until fixed
+  # schedule:
+  #   - cron: "0 */3 * * *" # Every 3 hours
+
+jobs:
+  latest_release:
+    # Don't run on private repo unless it is a PR or manual run
+    if: (github.repository == 'invertase/firestore-ios-sdk-frameworks' && github.event_name == 'schedule') || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
+
+    name: "Latest Release"
+    timeout-minutes: 120
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-tags: true
+      - name: GIT Setup
+        run: |
+          git fetch --tags
+          git config --global user.name '@Salakar'
+          git config --global user.email 'Salakar@users.noreply.github.com'
+          git remote set-url origin git@github.com:$GITHUB_REPOSITORY
+      - uses: webfactory/ssh-agent@v0.8.0
+        if: ${{ github.repository == 'invertase/firestore-ios-sdk-frameworks' }}
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set Github Token Securely
+        if: ${{ github.repository == 'invertase/firestore-ios-sdk-frameworks' }}
+        run: echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
+      - uses: dart-lang/setup-dart@v1
+      - run: cd ./.github/workflows/scripts && dart pub get
+      - name: Process Latest Version
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          dart ./.github/workflows/scripts/framework-controller.dart
+      - name: Report Failure Status
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          fields: all
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `firebase-ios-sdk pre-compile of ${process.env.LATEST_FIREBASE_VERSION} ${{ job.status }}`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.INVERTASEBOT_SLACK_GITHUB_CHANNEL_WEBHOOK_URL }}
+        if: failure()

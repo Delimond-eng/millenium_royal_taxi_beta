@@ -1,0 +1,70 @@
+name: royal_taxi_beta
+description: A new Flutter project.
+publish_to: none
+version: 1.0.0+1
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.10+1
+  form_field_validator: ^1.1.0
+  cached_network_image: ^3.2.0
+  flutter_rating_bar: ^4.0.1
+  flutter_widget_from_html_core: ^0.15.1
+  animations: ^2.0.11
+  url_launcher: ^6.3.0
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.20.0
+  firebase_core: ^2.32.0
+  equatable: ^2.0.5
+  sms_autofill: ^2.3.1
+  google_maps_flutter: ^2.6.1
+  http: ^1.2.1
+  provider: ^6.1.2
+  flutter_polyline_points: ^2.0.0
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  flutter_spinkit: ^5.2.1
+  pinput: ^4.0.0
+  dotted_line: ^3.2.2
+  animate_do: ^3.3.4
+  flutter_easyloading: ^3.0.5
+  location: ^6.0.2
+  geolocator: ^12.0.0
+  intl_phone_field: ^3.2.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  firebase_core_platform_interface: ^5.0.0
+flutter:
+  uses-material-design: true
+  assets:
+  - assets/images/
+  - assets/icons/
+  - assets/Illustration/
+  - assets/flags/
+  - assets/logo/
+  - assets/svgs/
+  - assets/maps/
+  fonts:
+  - family: Plus Jakarta
+    fonts:
+    - asset: assets/fonts/plus_jakarta/PlusJakartaDisplay-Regular.otf
+    - asset: assets/fonts/plus_jakarta/PlusJakartaDisplay-Medium.otf
+      weight: 500
+    - asset: assets/fonts/plus_jakarta/PlusJakartaDisplay-Bold.otf
+      weight: 700
+  - family: Grandis Extended
+    fonts:
+    - asset: assets/fonts/grandis_extended/GrandisExtended-Regular.ttf
+    - asset: assets/fonts/grandis_extended/GrandisExtended-Thin.ttf
+      weight: 300
+    - asset: assets/fonts/grandis_extended/GrandisExtended-Medium.ttf
+      weight: 500
+    - asset: assets/fonts/grandis_extended/GrandisExtended-Bold.ttf
+      weight: 700
+    - asset: assets/fonts/grandis_extended/GrandisExtended-Black.ttf
+      weight: 900

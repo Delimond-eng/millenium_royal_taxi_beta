@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493909601017",
+    "project_id": "royaltaxibeta",
+    "storage_bucket": "royaltaxibeta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493909601017:android:780f8802197994002d1028",
+        "android_client_info": {
+          "package_name": "com.millenium_hz.royal_taxi_beta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdgW6_7x8GHGvQQU8YdIB-c39mfAD2NFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
