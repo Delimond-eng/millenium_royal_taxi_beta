@@ -32,12 +32,17 @@ class ProfileScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: SizedBox(
+                    child: Container(
                       height: 80.0,
                       width: MediaQuery.of(context).size.width,
-                      child: Image.asset(
-                        "assets/images/cty.png",
-                        fit: BoxFit.cover,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(defaultBorderRadius),
+                        image: const DecorationImage(
+                            image: AssetImage(
+                              "assets/images/cty.png",
+                            ),
+                            fit: BoxFit.cover),
                       ),
                     ),
                   ),
