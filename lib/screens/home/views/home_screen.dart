@@ -5,8 +5,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:royal_taxi_beta/constants/styles.dart';
 import 'package:royal_taxi_beta/route/screen_export.dart';
+import 'package:royal_taxi_beta/screens/home/views/components/ride_type_component.dart';
+import 'package:royal_taxi_beta/screens/home/views/components/rider_payment_component.dart';
+import 'package:royal_taxi_beta/screens/home/views/components/rider_payment_mode.dart';
 
 import '../../../widgets/svg_widget.dart';
 import '../states/home_state.dart';
@@ -24,15 +28,27 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late HomeState homeState;
 
+  late Location location;
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  final LatLng _center = const LatLng(-4.4419311, 15.2662931);
+  final LatLng _center = const LatLng(-4.326277, 15.326688);
 
   @override
   void initState() {
     super.initState();
     homeState = Get.put(HomeState());
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+
+    // });
+
+    // location = Location();
+    // location.onLocationChanged.listen((LocationData currentLocation) {
+    //   setState(() {
+    //     _center = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+    //   });
+    // });
   }
 
   @override
@@ -56,13 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     data: MediaQuery.of(context)
                         .copyWith(viewInsets: EdgeInsets.zero),
                     child: GoogleMap(
-                      mapType: MapType.terrain,
+                      mapType: MapType.normal,
                       trafficEnabled: true,
                       zoomGesturesEnabled: true,
                       scrollGesturesEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: _center,
-                        zoom: 18.0,
+                        zoom: 16.5,
                       ),
                       onMapCreated: (GoogleMapController controller) {
                         _controller.complete(controller);
@@ -77,6 +93,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onPageChanged: homeState.onPageChanged,
               controller: homeState.controller.value,
               children: const [
+                RideTypeComponent(),
+                RidePaymentComponent(),
+                RiderPaymentMode(),
                 HomeComponent(),
                 RideSelectionComponent(),
                 RideValidatedComponent()

@@ -1,14 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:royal_taxi_beta/firebase_options.dart';
+import 'package:royal_taxi_beta/services/location_service.dart';
 import '/route/route_constants.dart';
 import '/route/router.dart' as router;
 import '/theme/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocationService.requestAllow();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
-
-// Thanks for using our template. You are using the free version of the template.
-// 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,12 +25,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Shop Template by The Flutter Way',
+      title: 'Royal Taxi application',
       theme: AppTheme.lightTheme(context),
       // Dark theme is included in the Full template
       themeMode: ThemeMode.light,
       onGenerateRoute: router.generateRoute,
       initialRoute: logInScreenRoute,
+      builder: EasyLoading.init(),
     );
   }
 }

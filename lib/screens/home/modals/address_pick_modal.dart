@@ -5,7 +5,6 @@ import 'package:royal_taxi_beta/constants/styles.dart';
 import 'package:royal_taxi_beta/theme/app_theme.dart';
 import 'package:royal_taxi_beta/widgets/stacked_shadow.dart';
 import '../../../../widgets/buttons/bordered_button.dart';
-import '../../../../widgets/buttons/rounded_icon_button.dart';
 import '../../../../widgets/snap_bar.dart';
 import '../../../../widgets/svg_widget.dart';
 import '../../../../widgets/textfields/rt_map_search_input.dart';
@@ -30,11 +29,13 @@ Future<void> showAddressPickBottomSheetModal(BuildContext context) async {
           return Stack(
             clipBehavior: Clip.none,
             children: [
-              const StackedShadow(),
+              const StackedShadow(
+                color: primaryColor,
+              ),
               Positioned.fill(
                 child: Card(
                   margin: EdgeInsets.zero,
-                  color: scaffoldColor,
+                  color: darkColor,
                   elevation: 10.0,
                   shadowColor: blackColor,
                   shape: const RoundedRectangleBorder(
@@ -59,7 +60,10 @@ Future<void> showAddressPickBottomSheetModal(BuildContext context) async {
                               Expanded(
                                 child: Text(
                                   "03, Avenue Bismark Golf",
-                                  style: Theme.of(context).textTheme.labelLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(color: whiteColor),
                                 ).marginOnly(top: 4),
                               ),
                               const BorderedButton()
@@ -69,7 +73,7 @@ Future<void> showAddressPickBottomSheetModal(BuildContext context) async {
                             direction: Axis.vertical,
                             lineLength: 15.0,
                             lineThickness: 2.0,
-                            dashColor: Colors.cyan,
+                            dashColor: primaryColor,
                             dashLength: 6,
                           ).paddingLeft(13.0),
                           const Row(
@@ -108,17 +112,6 @@ Future<void> showAddressPickBottomSheetModal(BuildContext context) async {
                   ),
                 ),
               ),
-              Positioned(
-                top: -20,
-                left: 10.0,
-                child: RoundedIconButton(
-                  icon: "close-2.svg",
-                  iconSize: 18.0,
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-              )
             ],
           );
         },

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import '/screens/auth/states/auth_state.dart';
 import '../../../constants/styles.dart';
 import '/route/route_constants.dart';
 
@@ -14,10 +18,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  // ignore: unused_field
+  late AuthState _authState;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _authState = Get.put(AuthState());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -46,23 +58,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     child: TextButton(
                       child: const Text("Mot de passe oublié ?"),
-                      onPressed: () {},
+                      onPressed: () async {},
                     ),
                   ),
-                  SizedBox(
-                    height:
-                        size.height > 700 ? size.height * 0.1 : defaultPadding,
-                  ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          entryPointScreenRoute,
-                          ModalRoute.withName(logInScreenRoute));
-                      // if (_formKey.currentState!.validate()) {
-                      // }
-                    },
-                    child: const Text("Connecter"),
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await _authState.signInWithPhoneAndPassword(
+                                  onSuccess: () {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, homeScreenRoute, (route) => false);
+                              }, onFailed: () {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                EasyLoading.showToast(
+                                  "Mot de passe ou numéro de téléphone invalide !",
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom,
+                                );
+                              });
+                            }
+                          },
+                    child: isLoading
+                        ? const SpinKitThreeBounce(
+                            size: 15.0,
+                            color: blackColor,
+                          )
+                        : const Text("Connecter"),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

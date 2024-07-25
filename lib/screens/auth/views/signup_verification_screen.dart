@@ -1,3 +1,7 @@
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+
+import '../states/auth_state.dart';
 import '/screens/auth/views/components/signup_verification_form.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +18,17 @@ class SignupVerificationScreen extends StatefulWidget {
 
 class _SignupVerificationScreenState extends State<SignupVerificationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late AuthState _authState;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _authState = Get.put(AuthState());
+  }
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -44,17 +56,29 @@ class _SignupVerificationScreenState extends State<SignupVerificationScreen> {
                   ),
                   const SizedBox(height: defaultPadding),
                   SignUpVerificationForm(formKey: _formKey),
-                  SizedBox(
-                    height:
-                        size.height > 700 ? size.height * 0.1 : defaultPadding,
+                  const SizedBox(
+                    height: defaultPadding,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, otpScreenRoute);
-                      }
-                    },
-                    child: const Text("Continuer"),
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            _authState.verifyPhoneNumber((verifyId) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              Navigator.pushNamed(context, otpScreenRoute);
+                            });
+                          },
+                    child: isLoading
+                        ? const SpinKitThreeBounce(
+                            size: 15.0,
+                            color: blackColor,
+                          )
+                        : const Text("Continuer"),
                   ),
                   const SizedBox(height: defaultPadding),
                   Row(

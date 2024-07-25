@@ -24,7 +24,7 @@ class StoryAddressCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(defaultBorderRadius),
             ),
-            color: whiteColor,
+            color: Colors.white70,
             child: Material(
               borderRadius: BorderRadius.circular(10.0),
               color: Colors.transparent,

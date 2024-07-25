@@ -24,10 +24,7 @@ class RTMapSearchField extends StatelessWidget {
       width: size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(defaultBorderRadius),
-        color: whiteColor,
-        border: Border.all(
-          color: borderColor ?? primaryMaterialColor.shade300,
-        ),
+        color: Colors.white.withOpacity(.7),
       ),
       child: isButton
           ? Material(
@@ -35,23 +32,18 @@ class RTMapSearchField extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: onSearchSelected,
-                borderRadius: BorderRadius.circular(defaultBorderRadius + 5),
+                borderRadius: BorderRadius.circular(defaultBorderRadius),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Svg(
-                      path: "search-location.svg",
-                      color: greyColor60,
-                      size: 30.0,
-                    ).paddingRight(10.0),
                     Expanded(
                       child: Text(
                         'Quelle est notre destination ?',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.grey,
+                              color: Colors.black,
                               fontWeight: FontWeight.w400,
                             ),
-                      ),
+                      ).paddingLeft(10.0),
                     ),
                   ],
                 ).paddingHorizontal(5.0),
@@ -60,11 +52,6 @@ class RTMapSearchField extends StatelessWidget {
           : Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Svg(
-                  path: "search-location.svg",
-                  color: Colors.grey.shade500,
-                  size: 30.0,
-                ).paddingRight(10.0),
                 Expanded(
                   child: TextField(
                     controller: controller,
@@ -80,10 +67,11 @@ class RTMapSearchField extends StatelessWidget {
                       hintText: "Quelle est notre destination ?",
                       hintStyle:
                           Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: Colors.grey,
+                                color: Colors.black,
                                 fontWeight: FontWeight.w400,
                               ),
                       counterText: '',
+                      fillColor: Colors.transparent,
                     ),
                   ),
                 ),

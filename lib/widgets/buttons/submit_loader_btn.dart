@@ -26,7 +26,7 @@ class SubmitLoaderButton extends StatelessWidget {
         disabledBackgroundColor: Colors.grey,
         backgroundColor: bgColor ?? primaryMaterialColor.shade600,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius ?? 10.0),
+          borderRadius: BorderRadius.circular(radius ?? defaultBorderRadius),
         ),
       ),
       onPressed: isLoading || disabled ? null : onPressed,

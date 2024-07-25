@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../constants/styles.dart';
 
 const InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
-  fillColor: greyColor5,
+  fillColor: whiteColor,
   filled: true,
-  hintStyle: TextStyle(color: greyColor, fontSize: 14.0),
+  hintStyle: TextStyle(color: blackColor60, fontSize: 14.0),
   border: outlineInputBorder,
   enabledBorder: outlineInputBorder,
   focusedBorder: focusedOutlineInputBorder,

@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:royal_taxi_beta/screens/auth/states/auth_state.dart';
 import '/screens/auth/views/components/sign_up_form.dart';
 import '/route/route_constants.dart';
 
@@ -15,6 +18,14 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   bool allowed = false;
+  bool isLoading = false;
+  late AuthState _authState;
+
+  @override
+  void initState() {
+    super.initState();
+    _authState = Get.put(AuthState());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +97,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: defaultPadding * 2),
                   ElevatedButton(
-                    onPressed: () {
-                      // There is 2 more screens while user complete their profile
-                      // afre sign up, it's available on the pro version get it now
-                      // 🔗 https://theflutterway.gumroad.com/l/fluttershop
-                      Navigator.pushNamed(context, entryPointScreenRoute);
-                    },
-                    child: const Text("Continue"),
+                    onPressed: !allowed || isLoading
+                        ? null
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              _authState.registerUser(onSuccess: () {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, homeScreenRoute, (route) => false);
+                              });
+                            }
+                          },
+                    child: isLoading
+                        ? const SpinKitThreeBounce(
+                            size: 15.0,
+                            color: blackColor,
+                          )
+                        : const Text("Sauvegarder & Continuer"),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

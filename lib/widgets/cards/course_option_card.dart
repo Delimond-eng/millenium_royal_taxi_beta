@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:royal_taxi_beta/constants/styles.dart';
 import 'package:royal_taxi_beta/theme/app_theme.dart';
 
 class CourseCard extends StatelessWidget {
@@ -18,53 +17,55 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Container(
-      height: screenSize.height * 0.08,
-      width: screenSize.width,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: colors ?? [primaryColor, Colors.indigo],
-        ),
-        borderRadius: BorderRadius.circular(defaultBorderRadius),
-        border: Border.all(
-          width: 1,
-          color: colors != null ? greyColor80 : Colors.transparent,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            icon,
-            fit: BoxFit.scaleDown,
-            height: screenSize.height * 0.060,
+    // Example breakpoint for large screens
+
+    return GestureDetector(
+      onTap: onSelected,
+      child: Container(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors ?? [Theme.of(context).primaryColor, Colors.indigo],
           ),
-          SizedBox(
-            width: screenSize.width * 0.020,
-          ),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Course',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: textColor ?? greyColor10,
-                      ),
-                ).paddingBottom(2.0),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: textColor ?? whiteColor),
-                )
-              ],
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              icon,
+              fit: BoxFit.scaleDown,
+              height: 60.0,
             ),
-          )
-        ],
-      ).paddingAll(8.0),
+            const SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Course',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: textColor ?? Colors.grey[100],
+                        ),
+                  ),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: textColor ?? Colors.white,
+                        ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ).paddingAll(8.0),
+      ),
     );
   }
 }

@@ -1,8 +1,6 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
+    id "com.google.gms.google-services"
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
@@ -27,9 +25,9 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace = "com.millenium_hz.royal_taxi_beta"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion "26.3.11579264"
+    namespace = "com.milleniumhz.royal_taxi_beta"
+    compileSdk = 34
+    ndkVersion = "26.3.11579264"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -41,7 +39,7 @@ android {
         applicationId = "com.millenium_hz.royal_taxi_beta"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = 23
+        minSdk = 21
         targetSdk = 34
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName

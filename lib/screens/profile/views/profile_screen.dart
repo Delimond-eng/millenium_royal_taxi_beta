@@ -26,34 +26,11 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: defaultPadding, vertical: defaultPadding * 1.5),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 80.0,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(defaultBorderRadius),
-                        image: const DecorationImage(
-                            image: AssetImage(
-                              "assets/images/cty.png",
-                            ),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
               child: Text(
-                "Account",
+                "Compte",
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -92,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPadding, vertical: defaultPadding / 2),
               child: Text(
-                "Personalization",
+                "Personnalisation",
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -116,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPadding, vertical: defaultPadding / 2),
               child: Text(
-                "Settings",
+                "Paramètres",
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
@@ -137,12 +114,12 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPadding, vertical: defaultPadding / 2),
               child: Text(
-                "Help & Support",
+                "Aide & Support",
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),
             ProfileMenuListTile(
-              text: "Get Help",
+              text: "Aide",
               svgSrc: "assets/icons/Help.svg",
               press: () {
                 Navigator.pushNamed(context, getHelpScreenRoute);
@@ -170,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               title: const Text(
-                "Log Out",
+                "Déconnexion",
                 style: TextStyle(color: errorColor, fontSize: 14, height: 1),
               ),
             )

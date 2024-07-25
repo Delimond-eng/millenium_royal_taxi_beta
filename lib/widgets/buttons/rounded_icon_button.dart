@@ -17,16 +17,15 @@ class RoundedIconButton extends StatelessWidget {
       width: 40,
       child: Card(
         margin: EdgeInsets.zero,
-        elevation: 2.0,
-        color: whiteColor,
+        color: primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(defaultBorderRadius),
         ),
         child: Material(
-          borderRadius: BorderRadius.circular(40.0),
+          borderRadius: BorderRadius.circular(defaultBorderRadius),
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(40.0),
+            borderRadius: BorderRadius.circular(defaultBorderRadius),
             onTap: onPressed,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +33,7 @@ class RoundedIconButton extends StatelessWidget {
               children: [
                 Svg(
                   path: icon,
-                  color: blackColor80,
+                  color: blackColor,
                   size: iconSize ?? 30.0,
                 ),
               ],

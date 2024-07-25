@@ -8,7 +8,6 @@ class PlaceCard extends StatelessWidget {
   final String? place;
   final String? reference;
   const PlaceCard({super.key, this.place, this.reference});
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -16,6 +15,8 @@ class PlaceCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Card(
         margin: EdgeInsets.zero,
+        color: whiteColor,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(defaultBorderRadius),
         ),

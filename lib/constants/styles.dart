@@ -22,6 +22,7 @@ const MaterialColor primaryMaterialColor =
 });
 
 const Color scaffoldColor = Color.fromARGB(255, 233, 237, 247);
+const Color darkColor = Color(0xFF2b0404);
 
 const Color blackColor = Color(0xFF16161E);
 const Color blackColor80 = Color(0xFF45454B);
@@ -54,7 +55,7 @@ const Color successColor = Color(0xFF2ED573);
 const Color warningColor = Color(0xFFFFBE21);
 const Color errorColor = Color(0xFFEA5B5B);
 
-const double defaultPadding = 16.0;
+const double defaultPadding = 10.0;
 const double defaultBorderRadius = 12.0;
 const Duration defaultDuration = Duration(milliseconds: 300);
 

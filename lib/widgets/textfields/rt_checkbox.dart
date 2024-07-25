@@ -6,13 +6,15 @@ class RTCheckbox extends StatelessWidget {
   final String? title;
   final bool isChecked;
   final VoidCallback? onChecked;
+  final double? fSize;
   final Color? color;
   const RTCheckbox(
       {super.key,
       this.title,
       this.isChecked = false,
       this.onChecked,
-      this.color});
+      this.color,
+      this.fSize});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class RTCheckbox extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
-                color: isChecked ? primaryColor : color ?? greyColor60,
+                color: isChecked ? primaryColor : color ?? whiteColor,
                 width: 2.0,
               ),
               borderRadius: BorderRadius.circular(7.0),
@@ -60,7 +62,8 @@ class RTCheckbox extends StatelessWidget {
               title!,
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: isChecked ? primaryColor : color ?? blackColor80,
+                    fontSize: fSize ?? null,
+                    color: isChecked ? primaryColor : color ?? whiteColor,
                   ),
             ),
           ),

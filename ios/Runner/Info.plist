@@ -49,6 +49,33 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Permission du google maps</string>
-
+	<key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>app-1-493909601017-ios-6b15a18e212fc2762d1028</string>
+            </array>
+        </dict>
+    </array>
+    <key>REVERSED_CLIENT_ID</key>
+    <string>com.googleusercontent.apps.493909601017-ios-6b15a18e212fc2762d1028</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

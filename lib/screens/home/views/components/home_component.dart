@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:royal_taxi_beta/constants/styles.dart';
 import 'package:royal_taxi_beta/theme/app_theme.dart';
-import 'package:royal_taxi_beta/widgets/stacked_shadow.dart';
 
 import '../../../../constants/my_address.dart';
+import '../../../../widgets/buttons/rounded_icon_button.dart';
 import '../../../../widgets/cards/course_option_card.dart';
 import '../../../../widgets/cards/story_address_card.dart';
 import '../../../../widgets/snap_bar.dart';
@@ -27,31 +27,26 @@ class _HomeComponentState extends State<HomeComponent> {
     var state = Get.put(HomeState());
     return LayoutBuilder(
       builder: (context, constraints) {
-        final contentHeight = calculateContentHeight(constraints.maxHeight);
-        final minChildSize = contentHeight / constraints.maxHeight;
         return FadeIn(
           child: DraggableScrollableSheet(
-            initialChildSize: minChildSize,
-            minChildSize: minChildSize,
-            maxChildSize: 0.55,
+            initialChildSize: 0.20,
+            minChildSize: 0.20,
+            maxChildSize: 0.52,
             snap: false,
             expand: false,
             builder: (BuildContext context, scrollSheetController) {
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  const StackedShadow(
-                    color: Color.fromARGB(255, 186, 204, 247),
-                  ),
                   Positioned.fill(
                     child: Card(
                       margin: EdgeInsets.zero,
-                      color: scaffoldColor,
+                      color: darkColor,
                       elevation: 10.0,
                       shadowColor: Colors.black,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30.0),
+                          top: Radius.circular(20.0),
                         ),
                       ),
                       child: ListView(
@@ -68,12 +63,6 @@ class _HomeComponentState extends State<HomeComponent> {
                               showAddressPickBottomSheetModal(context);
                             },
                           ).paddingHorizontal(10.0),
-                          DottedLine(
-                            direction: Axis.horizontal,
-                            lineThickness: 1,
-                            dashLength: 4,
-                            dashColor: Colors.grey.shade400,
-                          ).paddingVertical(10.0),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
@@ -84,10 +73,10 @@ class _HomeComponentState extends State<HomeComponent> {
                                     icon: "assets/icons/car-4.png",
                                     colors: const [
                                       Color.fromARGB(255, 123, 52, 19),
-                                      Color(0xFF2e0505),
+                                      Color.fromARGB(255, 123, 52, 19),
                                     ],
                                     onSelected: () {
-                                      state.animateToNextPage(1);
+                                      state.animateToNextPage(4);
                                     },
                                   ).paddingRight(10.0),
                                 ),
@@ -95,23 +84,23 @@ class _HomeComponentState extends State<HomeComponent> {
                                   child: CourseCard(
                                     title: "Moto",
                                     colors: const [
-                                      primaryColor,
-                                      Colors.brown,
+                                      Color.fromARGB(255, 123, 52, 19),
+                                      Color.fromARGB(255, 123, 52, 19),
                                     ],
                                     icon: "assets/icons/moto-1.png",
                                     onSelected: () {
-                                      state.animateToNextPage(1);
+                                      state.animateToNextPage(4);
                                     },
                                   ),
                                 ),
                               ],
-                            ),
+                            ).paddingTop(10.0),
                           ),
                           DottedLine(
                             direction: Axis.horizontal,
                             lineThickness: .4,
                             dashLength: 4,
-                            dashColor: Colors.grey.shade300,
+                            dashColor: Colors.grey.withOpacity(.2),
                           ).paddingVertical(10.0),
                           Column(
                             children: destinations
@@ -122,6 +111,17 @@ class _HomeComponentState extends State<HomeComponent> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    top: -20,
+                    left: 10.0,
+                    child: RoundedIconButton(
+                      icon: "arrow-left-2.svg",
+                      iconSize: 22.0,
+                      onPressed: () {
+                        state.animateToNextPage(0);
+                      },
+                    ),
+                  )
                 ],
               );
             },

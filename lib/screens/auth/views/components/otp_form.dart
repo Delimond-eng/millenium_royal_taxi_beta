@@ -1,3 +1,7 @@
+import 'package:get/get.dart';
+import 'package:royal_taxi_beta/route/screen_export.dart';
+import 'package:royal_taxi_beta/screens/auth/states/auth_state.dart';
+
 import '../../../../constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -18,18 +22,17 @@ class OtpForm extends StatelessWidget {
 
   Widget _pinInput(BuildContext context) {
     final focusNode = FocusNode();
+    final state = Get.put(AuthState());
 
     // Obtenir les dimensions de l'écran
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     // Ajuster la largeur et la hauteur en fonction de la taille de l'écran
     final pinWidth = screenWidth * 0.12;
-    final pinHeight = screenHeight * 0.06;
 
     final defaultPinTheme = PinTheme(
       width: pinWidth,
-      height: pinHeight,
+      height: 55.0,
       textStyle: Theme.of(context).textTheme.bodyMedium,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0), // Valeur ajustée
@@ -49,12 +52,16 @@ class OtpForm extends StatelessWidget {
         listenForMultipleSmsOnAndroid: true,
         defaultPinTheme: defaultPinTheme,
         useNativeKeyboard: true,
-        separatorBuilder: (index) => const SizedBox(width: 5),
+        separatorBuilder: (index) => SizedBox(width: screenWidth * .05),
         validator: (value) {
-          return value == '2222' ? null : 'Pin invalid !';
+          return value == "123456" ? null : 'Veuillez entrer un otp valide!';
         },
         hapticFeedbackType: HapticFeedbackType.lightImpact,
-        onCompleted: (pin) {},
+        onCompleted: (pin) {
+          state.verifyOtp(pin, onSuccess: () {
+            Navigator.pushNamed(context, signUpScreenRoute);
+          });
+        },
         onChanged: (value) {
           debugPrint('onChanged: ');
         },
@@ -65,7 +72,7 @@ class OtpForm extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 9),
               width: 22,
               height: 1,
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.grey.withOpacity(0.4),
             ),
           ],
         ),

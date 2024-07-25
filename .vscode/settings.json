@@ -3,13 +3,19 @@
         "cupertino",
         "easyloading",
         "firestore",
+        "fullname",
         "grandis",
         "latlng",
         "moto",
         "polyline",
+        "S'inscrire",
+        "Sauvegarder",
+        "sélectioner",
         "signup",
         "spinkit",
         "svgs",
-        "textfields"
+        "textfields",
+        "Veuillez",
+        "voiturage"
     ]
 }

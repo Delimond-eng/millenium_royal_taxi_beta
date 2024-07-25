@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:royal_taxi_beta/constants/storage.dart';
 
 import '/models/user.dart';
 
@@ -19,11 +21,9 @@ class AuthState extends GetxController {
 
   var phoneController = TextEditingController().obs;
   var passwordController = TextEditingController().obs;
-  var confirmPasswordController = TextEditingController().obs;
   var referralCodeController = TextEditingController().obs;
   var otpController = TextEditingController().obs;
-  var firstNameController = TextEditingController().obs;
-  var lastNameController = TextEditingController().obs;
+  var fullNameController = TextEditingController().obs;
   var emailController = TextEditingController().obs;
   var licensePlateController = TextEditingController().obs;
   var vehicleColorController = TextEditingController().obs;
@@ -41,6 +41,7 @@ class AuthState extends GetxController {
 
   var otpVerifyId = "".obs;
   var otpfailed = "".obs;
+  var isLoadingState = false.obs;
 
   var currentUser = Rx<auth.User?>(null);
 
@@ -63,91 +64,45 @@ class AuthState extends GetxController {
     _phoneAuthState = phoneAuthState;
   }
 
-  void animateToNextPage(int page) {
-    controller.value.animateToPage(page,
-        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    pageIndex.value = page;
+  //Verify phoneNumber
+  Future<void> verifyPhoneNumber(Function(String otpVerifyId) codeSent) async {
+    isLoadingState.value = false;
+    auth.FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneController.value.text,
+      verificationCompleted: (auth.PhoneAuthCredential credential) async {
+        await auth.FirebaseAuth.instance.signInWithCredential(credential);
+      },
+      verificationFailed: (auth.FirebaseAuthException e) {
+        otpVerifyId.value = "";
+        _phoneAuthState = PhoneAuthState.error;
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        otpVerifyId.value = verificationId;
+        _phoneAuthState = PhoneAuthState.codeSent;
+        codeSent.call(verificationId);
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        _startCountDown();
+      },
+    );
   }
 
-  void onPageChanged(int value) {
-    pageIndex.value = value;
-  }
-
-  Future<void> signUp() async {
-    phoneAuthStateChange = PhoneAuthState.loading;
-    /*final address = await MapService.instance?.getCurrentPosition();
+  //Method allow to verify otp
+  Future<void> verifyOtp(String smsCode, {VoidCallback? onSuccess}) async {
     try {
-      final user = User(
-        uid: uid,
-        isActive: true,
-        firstname: firstNameController.text,
-        lastname: lastNameController.text,
-        email: emailController.text,
-        createdAt: DateTime.now(),
-        isVerified: true,
-        licensePlate: licensePlateController.text,
-        phone: "234${phoneController.text}",
-        vehicleType: vehicleTypeController.text,
-        vehicleColor: vehicleColorController.text,
-        vehicleManufacturer: vehicleManufacturersController.text,
-        role: role,
-        latlng: address?.latLng,
+      isLoadingState.value = true;
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: otpVerifyId.value,
+        smsCode: smsCode,
       );
-      await userRepo.setUpAccount(user);
-      phoneAuthStateChange = PhoneAuthState.success;
-    } on FirebaseException catch (e) {
-      print(e.message);
-      phoneAuthStateChange = PhoneAuthState.error;
-    }*/
-  }
-
-  Future<void> phoneNumberVerification(String phone) async {
-    /*await AuthService.instance!.verifyPhoneSendOtp(phone,
-        completed: (credential) async {
-      if (credential.smsCode != null && credential.verificationId != null) {
-        verificationId = credential.verificationId ?? '';
-        notifyListeners();
-        await verifyAndLogin(credential.verificationId!, credential.smsCode!,
-            phoneController.text);
-      }
-    }, failed: (error) {
-      phoneAuthStateChange = PhoneAuthState.error;
-    }, codeSent: (String id, int? token) {
-      verificationId = id;
-      notifyListeners();
-
-      phoneAuthStateChange = PhoneAuthState.codeSent;
-      codeSentEvent();
-      print('code sent $id');
-    }, codeAutoRetrievalTimeout: (id) {
-      verificationId = id;
-      notifyListeners();
-
-      phoneAuthStateChange = PhoneAuthState.codeSent;
-      animateToNextPage(1);
-      print('timeout $id');
-    });
-    animateToNextPage(1);*/
-  }
-
-  Future<void> verifyAndLogin(
-      String verificationId, String smsCode, String phone) async {
-    /*phoneAuthStateChange = PhoneAuthState.loading;
-    final uid =
-        await authService?.verifyAndLogin(verificationId, smsCode, phone);
-    await userRepo.getUser(uid);
-    this.uid = uid ?? '';
-    animateToNextPage(2);
-    phoneAuthStateChange = PhoneAuthState.success;*/
-  }
-
-  Future<void> siginCurrentUser() async {
-    //await userRepo.signInCurrentUser();
-  }
-
-  Future<void> codeSentEvent() async {
-    animateToNextPage(1);
-    //_startCountDown();
+      await auth.FirebaseAuth.instance.signInWithCredential(credential);
+      currentUser.value = auth.FirebaseAuth.instance.currentUser;
+      isLoadingState.value = false;
+      onSuccess!.call();
+    } catch (e) {
+      otpfailed.value = "failed";
+      isLoadingState.value = false;
+    }
   }
 
   void _startCountDown() {
@@ -164,81 +119,60 @@ class AuthState extends GetxController {
 
   //Login user with phoneNumber and password
   //@return dynamic boolean OR Null
-  Future<dynamic> signInWithPhoneAndPassword() async {
+  Future<dynamic> signInWithPhoneAndPassword(
+      {VoidCallback? onSuccess, VoidCallback? onFailed}) async {
     try {
       QuerySnapshot userQuery = await FirebaseFirestore.instance
           .collection('users')
           .where('phoneNumber', isEqualTo: phoneController.value.text)
           .where('password', isEqualTo: passwordController.value.text)
           .get();
+      print(userQuery.docs.first);
 
       if (userQuery.docs.isNotEmpty) {
         // L'utilisateur existe et le mot de passe est correct
-        auth.UserCredential userCredential =
-            await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+        await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
           email: userQuery.docs[0]['email'],
           password: passwordController.value.text,
         );
-
-        String uid = userCredential.user!.uid;
-        return uid;
+        currentUser.value = auth.FirebaseAuth.instance.currentUser;
+        storage.write("refreshToken", currentUser.value!.refreshToken);
+        onSuccess!.call();
       } else {
-        // L'utilisateur n'existe pas ou le mot de passe est incorrect
+        onFailed!.call();
         return null;
       }
     } catch (e) {
-      print('Failed to sign in: $e');
+      print(e);
+      onFailed!.call();
       return null;
     }
   }
 
-  //Verify phoneNumber
-  Future<void> verifyPhoneNumber() async {
-    auth.FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: '+243${phoneController.value.text}',
-      verificationCompleted: (auth.PhoneAuthCredential credential) async {
-        await auth.FirebaseAuth.instance.signInWithCredential(credential);
-      },
-      verificationFailed: (auth.FirebaseAuthException e) {
-        print('Verification failed: ${e.message}');
-        otpVerifyId.value = "";
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        otpVerifyId.value = verificationId;
-        animateToNextPage(2);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+  Stream<auth.User?> get streamUser {
+    return auth.FirebaseAuth.instance.authStateChanges();
   }
 
-  //Verify otp
-  Future<bool> signInWithOtp(BuildContext context, String otp) async {
-    auth.PhoneAuthCredential credential = auth.PhoneAuthProvider.credential(
-      verificationId: otpVerifyId.value,
-      smsCode: otp,
-    );
-    try {
-      auth.UserCredential userCredential =
-          await auth.FirebaseAuth.instance.signInWithCredential(credential);
-      auth.User? user = userCredential.user;
-      if (kDebugMode) {
-        print(user);
+  Future<void> signCurrentUser() async {
+    var refreshToken = storage.read("refreshToken");
+    if (refreshToken != null) {
+      try {
+        await auth.FirebaseAuth.instance.signInWithCustomToken(refreshToken);
+        currentUser.value = auth.FirebaseAuth.instance.currentUser;
+      } catch (e) {
+        print("Error signing in with refresh token: $e");
       }
-      animateToNextPage(3);
-      return true;
-    } catch (e) {
-      otpfailed.value = "failed";
-      print('Failed to sign in: $e');
     }
-    return false;
+  }
+
+  Future<void> logout() async {
+    await auth.FirebaseAuth.instance.signOut();
   }
 
   //Register user
-  Future<dynamic> registerUser(BuildContext context) async {
-    if (passwordController.value.text != confirmPasswordController.value.text) {
-      print('Passwords do not match');
-      return;
-    }
+  Future<dynamic> registerUser({VoidCallback? onSuccess}) async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     try {
       // Créez un utilisateur anonyme pour obtenir un UID
       var user = auth.FirebaseAuth.instance.currentUser;
@@ -246,20 +180,20 @@ class AuthState extends GetxController {
         print('No current user after phone verification');
         return;
       }
-      String email = emailController.value.text;
       // Mettez à jour l'adresse e-mail et le mot de passe
-      await user.verifyBeforeUpdateEmail(email);
+      await user.verifyBeforeUpdateEmail(emailController.value.text);
       await user.updatePassword(passwordController.value.text);
+
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-        'firstName': firstNameController.value.text,
-        'lastName': lastNameController.value.text,
+        'fullname': fullNameController.value.text,
         'email': emailController.value.text,
         'phoneNumber': phoneController.value.text,
-        'referralCode': referralCodeController..value.text,
+        'referralCode': referralCodeController.value.text,
         'password': passwordController.value.text,
         'is_active': true,
-        'latlng': {'lat': '9393030', 'lng': '8383893'}
+        'latlng': {'lat': position.latitude, 'lng': position.longitude}
       });
+      onSuccess!.call();
       return user.uid;
     } catch (e) {
       print('Failed to register: $e');

@@ -1,7 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:royal_taxi_beta/screens/auth/states/auth_state.dart';
 
 class SignUpVerificationForm extends StatelessWidget {
   const SignUpVerificationForm({super.key, required this.formKey});
@@ -11,6 +14,7 @@ class SignUpVerificationForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FocusNode focusNode = FocusNode();
+    var state = Get.put(AuthState());
     return Form(
       key: formKey,
       child: Column(
@@ -18,6 +22,7 @@ class SignUpVerificationForm extends StatelessWidget {
           IntlPhoneField(
             focusNode: focusNode,
             searchText: "Recherche pays.",
+            keyboardType: TextInputType.phone,
             decoration: const InputDecoration(
               hintText: "Numéro de téléphone",
               counterText: '',
@@ -35,10 +40,12 @@ class SignUpVerificationForm extends StatelessWidget {
             languageCode: "fr",
             initialCountryCode: "CD",
             onChanged: (phone) {
-              print(phone.completeNumber);
+              state.phoneController.value.text = phone.completeNumber;
             },
             onCountryChanged: (country) {
-              print('Country changed to: ' + country.name);
+              if (kDebugMode) {
+                print('Country changed to: ' + country.name);
+              }
             },
           ),
         ],

@@ -16,7 +16,7 @@ class RideOptionCard extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          height: screenSize.height * 0.16,
+          height: screenSize.height * 0.14,
           width: screenSize.width * 0.35,
           margin: EdgeInsets.only(
             right: screenSize.width * 0.02,
@@ -28,12 +28,10 @@ class RideOptionCard extends StatelessWidget {
                       primaryColor,
                       const Color.fromARGB(255, 60, 8, 8),
                     ]
-                  : [whiteColor, whiteColor],
+                  : [whiteColor.withOpacity(.5), whiteColor],
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
             ),
-            border: Border.all(
-                color: isActive ? Colors.transparent : greyColor40, width: 3.0),
             borderRadius: BorderRadius.circular(defaultBorderRadius),
           ),
           child: Padding(
@@ -45,7 +43,7 @@ class RideOptionCard extends StatelessWidget {
                 Text(
                   item.title,
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: isActive ? whiteColor : primaryColor,
+                        color: isActive ? whiteColor : blackColor,
                         fontWeight: FontWeight.w900,
                       ),
                 ).paddingBottom(screenSize.height * 0.006),
@@ -87,12 +85,12 @@ class RideOptionCard extends StatelessWidget {
           top: -screenSize.height *
               0.04, // Positionnement en haut basé sur la hauteur de l'écran
           right: -screenSize.width *
-              0.03, // Positionnement à droite basé sur la largeur de l'écran
+              0.02, // Positionnement à droite basé sur la largeur de l'écran
           child: Image.asset(
             item.icon,
             fit: BoxFit.scaleDown,
             height: screenSize.height *
-                0.15, // Hauteur de l'image basée sur la hauteur de l'écran
+                0.12, // Hauteur de l'image basée sur la hauteur de l'écran
           ),
         ),
       ],
