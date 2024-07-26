@@ -28,7 +28,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case menuScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const ProfileScreen(),
+        builder: (context) => const MenuScreen(),
       );
     case userInfoScreenRoute:
       return MaterialPageRoute(

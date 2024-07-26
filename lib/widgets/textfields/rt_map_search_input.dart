@@ -23,16 +23,16 @@ class RTMapSearchField extends StatelessWidget {
       height: 50.0,
       width: size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(defaultBorderRadius),
+        borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
         color: Colors.white.withOpacity(.7),
       ),
       child: isButton
           ? Material(
-              borderRadius: BorderRadius.circular(defaultBorderRadius),
+              borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
               color: Colors.transparent,
               child: InkWell(
                 onTap: onSearchSelected,
-                borderRadius: BorderRadius.circular(defaultBorderRadius),
+                borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

@@ -1,4 +1,4 @@
-package com.milleniumhz.royal_taxi_beta
+package com.millenium_hz.royal_taxi_beta
 
 import io.flutter.embedding.android.FlutterActivity
 

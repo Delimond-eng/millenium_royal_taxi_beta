@@ -34,11 +34,11 @@ class _RiderPaymentModeState extends State<RiderPaymentMode> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return FadeIn(
+        return FadeInUp(
           child: DraggableScrollableSheet(
-            initialChildSize: 0.22,
-            minChildSize: 0.22,
-            maxChildSize: 0.22,
+            initialChildSize: 0.16,
+            minChildSize: 0.16,
+            maxChildSize: 0.16,
             snap: false,
             expand: false,
             builder: (BuildContext context, scrollSheetController) {
@@ -49,12 +49,12 @@ class _RiderPaymentModeState extends State<RiderPaymentMode> {
                     top: -30,
                     child: Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
                       height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30.0),
+                          top: Radius.circular(40.0),
                         ),
                       ),
                       child: const Padding(
@@ -67,6 +67,7 @@ class _RiderPaymentModeState extends State<RiderPaymentMode> {
                               'Sélectionnez un mode de paiement !',
                               style: TextStyle(
                                 color: darkColor,
+                                fontWeight: FontWeight.w800,
                               ),
                             )
                           ],
@@ -117,22 +118,22 @@ class _RiderPaymentModeState extends State<RiderPaymentMode> {
                                         return Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(5.0),
+                                                BorderRadius.circular(10.0),
                                           ),
                                           margin: EdgeInsets.zero,
                                           child: Material(
                                             color: Colors.transparent,
                                             borderRadius:
-                                                BorderRadius.circular(5.0),
+                                                BorderRadius.circular(10.0),
                                             child: InkWell(
                                               borderRadius:
-                                                  BorderRadius.circular(5),
+                                                  BorderRadius.circular(10),
                                               onTap: () {
                                                 _homeState.animateToNextPage(3);
                                               },
                                               child: Padding(
                                                 padding:
-                                                    const EdgeInsets.all(5.0),
+                                                    const EdgeInsets.all(10.0),
                                                 child: Image.asset(
                                                   e["icon"],
                                                   fit: BoxFit.scaleDown,

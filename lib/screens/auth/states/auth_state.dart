@@ -18,6 +18,7 @@ class AuthState extends GetxController {
   PhoneAuthState _phoneAuthState = PhoneAuthState.initial;
 
   var verificationId = ''.obs;
+  var isLoggedIn = false.obs;
 
   var phoneController = TextEditingController().obs;
   var passwordController = TextEditingController().obs;
@@ -127,17 +128,27 @@ class AuthState extends GetxController {
           .where('phoneNumber', isEqualTo: phoneController.value.text)
           .where('password', isEqualTo: passwordController.value.text)
           .get();
-      print(userQuery.docs.first);
 
       if (userQuery.docs.isNotEmpty) {
         // L'utilisateur existe et le mot de passe est correct
-        await auth.FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: userQuery.docs[0]['email'],
-          password: passwordController.value.text,
+        auth.FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: userQuery.docs.first['phoneNumber'],
+          verificationCompleted: (auth.PhoneAuthCredential credential) async {
+            await auth.FirebaseAuth.instance.signInWithCredential(credential);
+          },
+          verificationFailed: (auth.FirebaseAuthException e) {
+            otpVerifyId.value = "";
+            _phoneAuthState = PhoneAuthState.error;
+          },
+          codeSent: (String verificationId, int? resendToken) {
+            otpVerifyId.value = verificationId;
+            _phoneAuthState = PhoneAuthState.codeSent;
+            onSuccess!.call();
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {
+            _startCountDown();
+          },
         );
-        currentUser.value = auth.FirebaseAuth.instance.currentUser;
-        storage.write("refreshToken", currentUser.value!.refreshToken);
-        onSuccess!.call();
       } else {
         onFailed!.call();
         return null;

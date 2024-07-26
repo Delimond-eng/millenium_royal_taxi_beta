@@ -26,6 +26,12 @@ class _RideSelectionComponentState extends State<RideSelectionComponent> {
   late HomeState state;
   bool isAgreement = false;
 
+  List<Map<String, dynamic>> options = [
+    {"icon": "", "title": "Standard", "price": "2500 CDF", "time": "29"},
+    {"icon": "", "title": "Confort", "price": "5500 CDF", "time": "27"},
+    {"icon": "", "title": "VIP", "price": "8000 CDF", "time": "45"},
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +60,7 @@ class _RideSelectionComponentState extends State<RideSelectionComponent> {
                     color: darkColor,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20.0),
+                        top: Radius.circular(30.0),
                       ),
                     ),
                     child: ListView(
@@ -133,9 +139,8 @@ class _RideSelectionComponentState extends State<RideSelectionComponent> {
                                 .map(
                                   (el) => RideOptionCard(
                                     item: el,
-                                    isActive: rideOptions.indexOf(el) == 0
-                                        ? true
-                                        : false,
+                                    isActive: el.isActive,
+                                    onSelected: () {},
                                   ),
                                 )
                                 .toList(),
@@ -170,6 +175,7 @@ class _RideSelectionComponentState extends State<RideSelectionComponent> {
                           height: 56.0,
                           child: SubmitLoaderButton(
                             disabled: !isAgreement,
+                            radius: 20.0,
                             child: Text(
                               "Commander un taxi maintenant",
                               style: Theme.of(context)

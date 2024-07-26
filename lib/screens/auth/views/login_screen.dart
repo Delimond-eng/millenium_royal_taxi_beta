@@ -74,16 +74,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() {
                                   isLoading = false;
                                 });
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, homeScreenRoute, (route) => false);
+                                _authState.isLoggedIn.value = true;
+                                Navigator.pushNamed(
+                                  context,
+                                  otpScreenRoute,
+                                );
                               }, onFailed: () {
                                 setState(() {
                                   isLoading = false;
                                 });
                                 EasyLoading.showToast(
                                   "Mot de passe ou numéro de téléphone invalide !",
-                                  toastPosition:
-                                      EasyLoadingToastPosition.bottom,
+                                  toastPosition: EasyLoadingToastPosition.top,
                                 );
                               });
                             }

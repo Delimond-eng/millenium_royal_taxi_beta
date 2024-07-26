@@ -6,6 +6,7 @@ class RideOption {
   final DateTime timeOfArrival;
   final double price;
   final String icon;
+  final bool isActive;
 
   const RideOption({
     required this.id,
@@ -13,6 +14,7 @@ class RideOption {
     required this.timeOfArrival,
     required this.price,
     required this.icon,
+    this.isActive = false,
   });
 
   factory RideOption.fromMap(Map<String, dynamic> data) {
@@ -32,6 +34,7 @@ class RideOption {
       timeOfArrival: data['time_of_arrival'] ?? DateTime.now(),
       title: data['ride_type'],
       icon: getIcon(data['id']),
+      isActive: data['isActive'] ?? false,
     );
   }
 }

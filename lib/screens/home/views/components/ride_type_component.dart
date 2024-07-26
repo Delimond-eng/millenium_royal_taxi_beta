@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:royal_taxi_beta/constants/styles.dart';
+import 'package:royal_taxi_beta/screens/auth/states/auth_state.dart';
 import 'package:royal_taxi_beta/screens/home/states/home_state.dart';
 import 'package:royal_taxi_beta/theme/app_theme.dart';
 
@@ -34,7 +35,7 @@ class _RideTypeComponentState extends State<RideTypeComponent> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return FadeIn(
+        return FadeInUp(
           child: DraggableScrollableSheet(
             initialChildSize: 0.22,
             minChildSize: 0.22,
@@ -49,12 +50,12 @@ class _RideTypeComponentState extends State<RideTypeComponent> {
                     top: -30,
                     child: Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
                       height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30.0),
+                          top: Radius.circular(40.0),
                         ),
                       ),
                       child: const Padding(
@@ -67,6 +68,7 @@ class _RideTypeComponentState extends State<RideTypeComponent> {
                               'Veuillez sélectioner le type de course !',
                               style: TextStyle(
                                 color: darkColor,
+                                fontWeight: FontWeight.w800,
                               ),
                             )
                           ],
@@ -133,6 +135,7 @@ class _RideTypeComponentState extends State<RideTypeComponent> {
                               height: 50.0,
                               child: SubmitLoaderButton(
                                 disabled: !isSelectedOne,
+                                radius: 20.0,
                                 child: Text(
                                   "Continuer",
                                   style: Theme.of(context)
@@ -143,7 +146,9 @@ class _RideTypeComponentState extends State<RideTypeComponent> {
                                       ),
                                 ),
                                 onPressed: () {
-                                  _homeState.animateToNextPage(1);
+                                  var state = Get.put(AuthState());
+
+                                  //_homeState.animateToNextPage(1);
                                 },
                               ).paddingHorizontal(10.0),
                             ),

@@ -46,7 +46,7 @@ class _HomeComponentState extends State<HomeComponent> {
                       shadowColor: Colors.black,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20.0),
+                          top: Radius.circular(30.0),
                         ),
                       ),
                       child: ListView(
@@ -72,7 +72,7 @@ class _HomeComponentState extends State<HomeComponent> {
                                     title: "Voiture",
                                     icon: "assets/icons/car-4.png",
                                     colors: const [
-                                      Color.fromARGB(255, 123, 52, 19),
+                                      whiteColor,
                                       Color.fromARGB(255, 123, 52, 19),
                                     ],
                                     onSelected: () {
@@ -84,7 +84,7 @@ class _HomeComponentState extends State<HomeComponent> {
                                   child: CourseCard(
                                     title: "Moto",
                                     colors: const [
-                                      Color.fromARGB(255, 123, 52, 19),
+                                      whiteColor,
                                       Color.fromARGB(255, 123, 52, 19),
                                     ],
                                     icon: "assets/icons/moto-1.png",

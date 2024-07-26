@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Royal Taxi application',
       theme: AppTheme.lightTheme(context),
-      // Dark theme is included in the Full template
       themeMode: ThemeMode.light,
       onGenerateRoute: router.generateRoute,
       initialRoute: logInScreenRoute,

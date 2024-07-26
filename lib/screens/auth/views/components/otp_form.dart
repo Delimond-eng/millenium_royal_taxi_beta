@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpForm extends StatelessWidget {
-  const OtpForm({super.key});
+  final bool isLoggedIn;
+  const OtpForm({super.key, this.isLoggedIn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +16,12 @@ class OtpForm extends StatelessWidget {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _pinInput(context),
+        _pinInput(context, isLoggedIn),
       ],
     ));
   }
 
-  Widget _pinInput(BuildContext context) {
+  Widget _pinInput(BuildContext context, bool isLoggedIn) {
     final focusNode = FocusNode();
     final state = Get.put(AuthState());
 
@@ -59,7 +60,12 @@ class OtpForm extends StatelessWidget {
         hapticFeedbackType: HapticFeedbackType.lightImpact,
         onCompleted: (pin) {
           state.verifyOtp(pin, onSuccess: () {
-            Navigator.pushNamed(context, signUpScreenRoute);
+            if (isLoggedIn) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, homeScreenRoute, (route) => false);
+            } else {
+              Navigator.pushNamed(context, signUpScreenRoute);
+            }
           });
         },
         onChanged: (value) {

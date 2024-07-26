@@ -71,19 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MediaQuery(
                     data: MediaQuery.of(context)
                         .copyWith(viewInsets: EdgeInsets.zero),
-                    child: GoogleMap(
-                      mapType: MapType.normal,
-                      trafficEnabled: true,
-                      zoomGesturesEnabled: true,
-                      scrollGesturesEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: _center,
-                        zoom: 16.5,
-                      ),
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller.complete(controller);
-                      },
-                    ),
+                    child: Image.asset("assets/images/map.png"),
                   );
                 },
               ),
@@ -104,6 +92,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       }),
+    );
+  }
+
+  GoogleMap _mapViewer() {
+    return GoogleMap(
+      mapType: MapType.normal,
+      trafficEnabled: true,
+      zoomGesturesEnabled: true,
+      scrollGesturesEnabled: true,
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 16.5,
+      ),
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
     );
   }
 

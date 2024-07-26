@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:royal_taxi_beta/constants/styles.dart';
 import 'package:royal_taxi_beta/theme/app_theme.dart';
 
 class CourseCard extends StatelessWidget {
@@ -25,11 +26,9 @@ class CourseCard extends StatelessWidget {
         height: 60,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: colors ?? [Theme.of(context).primaryColor, Colors.indigo],
-          ),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
+            border: Border.all(color: primaryColor)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,22 +36,22 @@ class CourseCard extends StatelessWidget {
             Image.asset(
               icon,
               fit: BoxFit.scaleDown,
-              height: 60.0,
+              height: 70.0,
             ),
             const SizedBox(
               width: 10,
             ),
             Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Course',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: textColor ?? Colors.grey[100],
                         ),
-                  ),
+                  ).paddingRight(5.0),
                   Text(
                     title,
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(

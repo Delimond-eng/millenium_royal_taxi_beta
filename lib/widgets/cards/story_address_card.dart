@@ -31,7 +31,7 @@ class StoryAddressCard extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10.0),
                 onTap: () {
-                  state.animateToNextPage(1);
+                  state.animateToNextPage(4);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),

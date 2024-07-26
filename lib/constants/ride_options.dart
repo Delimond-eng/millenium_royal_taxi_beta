@@ -8,6 +8,7 @@ List<RideOption> rideOptions = [
     timeOfArrival: DateTime.now().add(const Duration(minutes: 5)),
     price: 2500,
     icon: IconsAssets.stardard_car,
+    isActive: true,
   ),
   RideOption(
     id: '01',
@@ -15,6 +16,7 @@ List<RideOption> rideOptions = [
     timeOfArrival: DateTime.now().add(const Duration(minutes: 3)),
     price: 5500,
     icon: IconsAssets.premium_car,
+    isActive: false,
   ),
   RideOption(
     id: '02',
@@ -22,5 +24,6 @@ List<RideOption> rideOptions = [
     timeOfArrival: DateTime.now().add(const Duration(minutes: 2)),
     price: 8000,
     icon: IconsAssets.vip_car,
+    isActive: false,
   ),
 ];

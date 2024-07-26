@@ -17,11 +17,12 @@ class RidePaymentComponent extends StatefulWidget {
 
 class _RidePaymentComponentState extends State<RidePaymentComponent> {
   List<Map<String, dynamic>> payModes = [
-    {"label": "Moi même", "selected": false},
-    {"label": "Entreprise", "selected": false},
-    {"label": "Un proche", "selected": false},
+    {"label": "Moi même qui paye.", "selected": false, "index": 0},
+    {"label": "Entreprise qui paye.", "selected": false, "index": 1},
+    {"label": "Un proche qui paye.", "selected": false, "index": 2},
   ];
   bool isSelectedOne = false;
+  int selectedIndex = 0;
   late HomeState _homeState;
 
   @override
@@ -34,7 +35,7 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return FadeIn(
+        return FadeInUp(
           child: DraggableScrollableSheet(
             initialChildSize: 0.22,
             minChildSize: 0.22,
@@ -49,12 +50,12 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
                     top: -30,
                     child: Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
                       height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30.0),
+                          top: Radius.circular(40.0),
                         ),
                       ),
                       child: const Padding(
@@ -67,6 +68,7 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
                               'Qui paye votre course ?',
                               style: TextStyle(
                                 color: darkColor,
+                                fontWeight: FontWeight.w800,
                               ),
                             )
                           ],
@@ -112,6 +114,7 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
                                                 el['selected'] = false;
                                               }
                                               e['selected'] = !e['selected'];
+                                              selectedIndex = e['index'];
                                               setState(() {
                                                 if (e['selected']) {
                                                   isSelectedOne = true;
@@ -133,6 +136,7 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
                               height: 50.0,
                               child: SubmitLoaderButton(
                                 disabled: !isSelectedOne,
+                                radius: 20.0,
                                 child: Text(
                                   "Continuer",
                                   style: Theme.of(context)
@@ -143,7 +147,11 @@ class _RidePaymentComponentState extends State<RidePaymentComponent> {
                                       ),
                                 ),
                                 onPressed: () {
-                                  _homeState.animateToNextPage(2);
+                                  if (selectedIndex == 0) {
+                                    _homeState.animateToNextPage(2);
+                                  } else {
+                                    _homeState.animateToNextPage(3);
+                                  }
                                 },
                               ).paddingHorizontal(10.0),
                             ),

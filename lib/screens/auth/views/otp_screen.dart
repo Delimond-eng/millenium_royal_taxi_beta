@@ -45,7 +45,12 @@ class _OtpScreenState extends State<OtpScreen> {
                   Text(
                       "Veuillez entrer le code. Un code à 6 chiffres a été envoyé au ${state.phoneController.value.text}"),
                   const SizedBox(height: defaultPadding),
-                  const Center(child: OtpForm()),
+                  Obx(() {
+                    return Center(
+                        child: OtpForm(
+                      isLoggedIn: state.isLoggedIn.value,
+                    ));
+                  }),
                   SizedBox(
                     height:
                         size.height > 700 ? size.height * 0.1 : defaultPadding,
@@ -78,18 +83,19 @@ class _OtpScreenState extends State<OtpScreen> {
                     dashLength: 10,
                     dashColor: Colors.grey.shade500,
                   ).paddingVertical(10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Avez-vous un compte ?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, logInScreenRoute);
-                        },
-                        child: const Text("Connectez-vous"),
-                      )
-                    ],
-                  ),
+                  if (!state.isLoggedIn.value)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Avez-vous un compte ?"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, logInScreenRoute);
+                          },
+                          child: const Text("Connectez-vous"),
+                        )
+                      ],
+                    ),
                 ],
               ),
             )

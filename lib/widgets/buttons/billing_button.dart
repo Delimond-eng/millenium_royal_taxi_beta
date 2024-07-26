@@ -10,10 +10,10 @@ class BillingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.0,
+      height: 40.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(defaultBorderRadius),
+        borderRadius: BorderRadius.circular(10.0),
         color: whiteColor,
         border: Border.all(color: greyColor60),
       ),

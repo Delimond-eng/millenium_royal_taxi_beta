@@ -6,7 +6,9 @@ import '/models/ride_option.dart';
 class RideOptionCard extends StatelessWidget {
   final RideOption item;
   final bool isActive;
-  const RideOptionCard({super.key, required this.item, this.isActive = false});
+  final VoidCallback? onSelected;
+  const RideOptionCard(
+      {super.key, required this.item, this.isActive = false, this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -32,52 +34,81 @@ class RideOptionCard extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(defaultBorderRadius),
+            borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(screenSize.width * 0.02),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: isActive ? whiteColor : blackColor,
-                        fontWeight: FontWeight.w900,
-                      ),
-                ).paddingBottom(screenSize.height * 0.006),
-                Text(
-                  '${item.price} CDF',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: isActive ? greyColor60 : blackColor80,
-                        fontSize: screenSize.height *
-                            0.015, // Taille de la police basée sur la hauteur de l'écran
-                      ),
-                ),
-                Row(
+          child: Material(
+            borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(defaultBorderRadius + 3),
+              onTap: onSelected,
+              child: Padding(
+                padding: EdgeInsets.all(screenSize.width * 0.02),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.timer_sharp,
-                      size: screenSize.height * 0.015,
-                      color: isActive
-                          ? Colors.grey.shade300
-                          : Colors.grey.shade600,
-                    ).paddingRight(screenSize.width * 0.01),
                     Text(
-                      '${item.timeOfArrival.minute.toString()} min',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      item.title,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: isActive ? whiteColor : blackColor,
+                            fontWeight: FontWeight.w900,
+                          ),
+                    ).paddingBottom(screenSize.height * 0.006),
+                    Text(
+                      '${item.price} CDF',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w700,
                             color: isActive ? greyColor60 : blackColor80,
                             fontSize: screenSize.height *
-                                0.01, // Taille de la police basée sur la hauteur de l'écran
-                            fontWeight: FontWeight.w600,
+                                0.015, // Taille de la police basée sur la hauteur de l'écran
                           ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.timer_sharp,
+                          size: screenSize.height * 0.015,
+                          color: isActive
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade600,
+                        ).paddingRight(screenSize.width * 0.01),
+                        Text(
+                          '${item.timeOfArrival.minute.toString()} min',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                color: isActive ? greyColor60 : blackColor80,
+                                fontSize: screenSize.height *
+                                    0.01, // Taille de la police basée sur la hauteur de l'écran
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        if (isActive) ...[
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Container(
+                            height: 20.0,
+                            width: 20.0,
+                            decoration: const BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.circle,
+                              color: whiteColor,
+                              size: 8.0,
+                            ),
+                          ),
+                        ]
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

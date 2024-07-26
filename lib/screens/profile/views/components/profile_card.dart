@@ -26,14 +26,17 @@ class ProfileCard extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         radius: 28,
-        child: Image.asset(
-          imageSrc,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            imageSrc,
+          ),
         ),
       ),
       title: Row(
         children: [
           Text(
-            isShowHi ? "Hi, $name" : name,
+            isShowHi ? "Bonjour, $name" : name,
             style: const TextStyle(fontWeight: FontWeight.w500),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
